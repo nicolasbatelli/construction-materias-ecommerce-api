@@ -1,6 +1,5 @@
-﻿using ConstructionMaterials.Application.Models;
-using ConstructionMaterials.Infrastructure.Repositories;
-using ConstructionMaterials.Infrastructure.UnitOfWork;
+﻿using ConstructionMaterials.Application.Contracts;
+using ConstructionMaterials.Application.Models;
 using MediatR;
 
 namespace ConstructionMaterials.Application.Commands;

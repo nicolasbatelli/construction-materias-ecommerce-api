@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
+using ConstructionMaterials.Application.Contracts;
 using ConstructionMaterials.Application.Models;
-using ConstructionMaterials.Domain.Common;
-using ConstructionMaterials.Infrastructure.Repositories;
 using MediatR;
 
 
@@ -24,12 +23,7 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, PagedRe
         var pagedProducts = await _repository.GetPagedProductsAsync(request.PaginationParameters);
 
         // Map the domain products to DTOs
-        var pagedProductDtos = new PagedResult<ProductDto>(
-            _mapper.Map<List<ProductDto>>(pagedProducts.Items),
-            pagedProducts.TotalCount,
-            pagedProducts.PageSize,
-            pagedProducts.PageNumber
-            );;
+        var pagedProductDtos = _mapper.Map<PagedResult<ProductDto>>(pagedProducts);
 
         return pagedProductDtos;
     }

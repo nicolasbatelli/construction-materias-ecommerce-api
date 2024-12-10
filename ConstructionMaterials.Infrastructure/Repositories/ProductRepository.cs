@@ -1,4 +1,5 @@
-﻿using ConstructionMaterials.Domain.Common;
+﻿using ConstructionMaterials.Application.Contracts;
+using ConstructionMaterials.Application.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ConstructionMaterials.Infrastructure.Repositories;

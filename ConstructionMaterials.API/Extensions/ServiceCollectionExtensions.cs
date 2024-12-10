@@ -1,10 +1,13 @@
-﻿using ConstructionMaterials.Application.Mappings;
+﻿using AutoMapper;
+using ConstructionMaterials.Application.Mappings;
 using ConstructionMaterials.Application.Models;
-using ConstructionMaterials.Infrastructure.Repositories;
-using ConstructionMaterials.Infrastructure.UnitOfWork;
+using ConstructionMaterials.Application.Contracts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
+using ConstructionMaterials.Infrastructure.Repositories;
+using ConstructionMaterials.Infrastructure.UnitOfWork;
 
 namespace ConstructionMaterials.Api.Extensions
 {
@@ -14,18 +17,16 @@ namespace ConstructionMaterials.Api.Extensions
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ProductDto).Assembly)); 
-            
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ProductDto).Assembly));
+
             return services;
         }
 
-        public static IServiceCollection ConfigureMapper(this IServiceCollection services) 
+        public static IServiceCollection ConfigureMapper(this IServiceCollection services)
         {
             // Add AutoMapper
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            services.AddAutoMapper(typeof(ProductMappingProfile));
+            services.AddAutoMapper(typeof(MappingProfile));
             return services;
         }
 
@@ -57,7 +58,30 @@ namespace ConstructionMaterials.Api.Extensions
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Construction Materials API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                // Configure Swagger to use JWT Authentication
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                c.AddSecurityRequirement(
+                    new OpenApiSecurityRequirement
+                    {
+                        { 
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                        Type = ReferenceType.SecurityScheme,
+                                        Id = "Bearer"
+                                }
+                            },
+                            Array.Empty<string>()
+                        }
+                    });
             });
 
             return services;

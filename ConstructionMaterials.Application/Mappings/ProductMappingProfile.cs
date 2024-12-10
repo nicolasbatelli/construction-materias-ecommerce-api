@@ -3,12 +3,14 @@ using ConstructionMaterials.Application.Models;
 
 namespace ConstructionMaterials.Application.Mappings
 {
-    public class ProductMappingProfile : Profile
+    public class MappingProfile : Profile
     {
-        public ProductMappingProfile()
+        public MappingProfile()
         {
             // Configure your mappings here
             CreateMap<Product, ProductDto>();
+            CreateMap<PagedResult<Product>, PagedResult<ProductDto>>();
+
         }
     }
 }

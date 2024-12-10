@@ -1,6 +1,7 @@
-﻿using ConstructionMaterials.Domain.Common;
+﻿
+using ConstructionMaterials.Application.Models;
 
-namespace ConstructionMaterials.Infrastructure.Repositories;
+namespace ConstructionMaterials.Application.Contracts;
 
 public interface IProductRepository
 {

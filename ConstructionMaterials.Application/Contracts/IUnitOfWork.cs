@@ -1,4 +1,4 @@
-﻿namespace ConstructionMaterials.Infrastructure.UnitOfWork;
+﻿namespace ConstructionMaterials.Application.Contracts;
 
 public interface IUnitOfWork
 {

@@ -1,5 +1,4 @@
 ﻿using ConstructionMaterials.Application.Models;
-using ConstructionMaterials.Domain.Common;
 using MediatR;
 
 namespace ConstructionMaterials.Application.Queries;

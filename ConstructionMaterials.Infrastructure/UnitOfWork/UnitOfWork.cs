@@ -1,4 +1,6 @@
-﻿namespace ConstructionMaterials.Infrastructure.UnitOfWork;
+﻿using ConstructionMaterials.Application.Contracts;
+
+namespace ConstructionMaterials.Infrastructure.UnitOfWork;
 
 public class UnitOfWork : IUnitOfWork
 {

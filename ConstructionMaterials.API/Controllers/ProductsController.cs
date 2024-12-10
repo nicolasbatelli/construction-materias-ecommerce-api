@@ -1,10 +1,13 @@
 ﻿using ConstructionMaterials.Application.Commands;
 using ConstructionMaterials.Application.Queries;
-using ConstructionMaterials.Domain.Common;
+using ConstructionMaterials.Application.Contracts;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ConstructionMaterials.Application.Models;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {

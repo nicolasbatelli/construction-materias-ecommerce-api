@@ -1,4 +1,4 @@
-﻿namespace ConstructionMaterials.Domain.Common;
+﻿namespace ConstructionMaterials.Application.Models;
 
 public class PaginationParameters
 {
