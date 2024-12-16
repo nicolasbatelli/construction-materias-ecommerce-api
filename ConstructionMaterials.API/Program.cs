@@ -1,19 +1,14 @@
 using ConstructionMaterials.Api.Extensions;
-using Microsoft.EntityFrameworkCore;
+using ConstructionMaterials.Application.Extensions;
+using ConstructionMaterials.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.ConfigureMapper();
-
 // Configure services
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sqlOptions => sqlOptions.MigrationsAssembly("ConstructionMaterials.Infrastructure")));
 
-builder.Services.AddControllers();
-
-builder.Services.ConfigureJwtAuthentication(builder.Configuration);
-builder.Services.ConfigureSwagger();
-builder.Services.RegisterApplicationServices();
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddWebServices(builder.Configuration);
 
 var app = builder.Build();
 

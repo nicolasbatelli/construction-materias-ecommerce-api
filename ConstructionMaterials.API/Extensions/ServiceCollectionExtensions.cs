@@ -1,36 +1,24 @@
-﻿using AutoMapper;
-using ConstructionMaterials.Application.Mappings;
-using ConstructionMaterials.Application.Models;
-using ConstructionMaterials.Application.Contracts;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using ConstructionMaterials.Infrastructure.Repositories;
-using ConstructionMaterials.Infrastructure.UnitOfWork;
 
 namespace ConstructionMaterials.Api.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection RegisterApplicationServices(this IServiceCollection services)
+
+        public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ProductDto).Assembly));
+            services.AddControllers();
+            
+            AddJwtAuthentication(services, configuration);
+            AddSwagger(services);
 
             return services;
         }
 
-        public static IServiceCollection ConfigureMapper(this IServiceCollection services)
-        {
-            // Add AutoMapper
-
-            services.AddAutoMapper(typeof(MappingProfile));
-            return services;
-        }
-
-        public static IServiceCollection ConfigureJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+        private static void AddJwtAuthentication( IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication(options =>
             {
@@ -50,16 +38,14 @@ namespace ConstructionMaterials.Api.Extensions
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"]))
                 };
             });
-
-            return services;
         }
 
-        public static IServiceCollection ConfigureSwagger(this IServiceCollection services)
+        private static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-                // Configure Swagger to use JWT Authentication
+                //Configure Swagger to use JWT Authentication
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
@@ -70,7 +56,7 @@ namespace ConstructionMaterials.Api.Extensions
                 c.AddSecurityRequirement(
                     new OpenApiSecurityRequirement
                     {
-                        { 
+                        {
                             new OpenApiSecurityScheme
                             {
                                 Reference = new OpenApiReference
