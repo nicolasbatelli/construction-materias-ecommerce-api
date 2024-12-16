@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace ConstructionMaterials.API.Migrations
+namespace ConstructionMaterials.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialMigration : Migration
