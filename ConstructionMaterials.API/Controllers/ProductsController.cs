@@ -1,6 +1,5 @@
 ﻿using ConstructionMaterials.Application.Commands;
 using ConstructionMaterials.Application.Queries;
-using ConstructionMaterials.Application.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
